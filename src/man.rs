@@ -2,7 +2,7 @@ use super::*;
 use roff::{bold, italic, list, Roff, Troffable};
 
 /// The main man page struct.
-#[derive(Debug, Clone)]
+#[derive(Debug)]
 pub struct Manual {
   name: String,
   about: Option<String>,
@@ -380,6 +380,11 @@ fn custom(page: Roff, custom_section: Section) -> Roff {
     paragraphs.push(paragraph);
     paragraphs.push("\n\n".into())
   }
+  for flag_or_section in custom_section.flags_and_options {
+    paragraphs.push(flag_or_section.render());
+    paragraphs.push("\n\n".into())
+  }
+
   page.section(&custom_section.name, &paragraphs)
 }
 

@@ -24,3 +24,7 @@ pub use flag::Flag;
 pub use man::Manual;
 pub use option::Opt;
 pub use section::Section;
+
+trait FlagOrOption: std::fmt::Debug {
+  fn render(&self) -> String;
+}

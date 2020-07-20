@@ -1,3 +1,6 @@
+use super::*;
+use roff::{bold, italic, list};
+
 /// Arguments that take values.
 #[derive(Debug, Clone)]
 pub struct Opt {
@@ -42,5 +45,37 @@ impl Opt {
   pub fn long(mut self, long: &str) -> Self {
     self.long = Some(long.into());
     self
+  }
+}
+
+impl FlagOrOption for Opt {
+  fn render(&self) -> String {
+    let mut args: Vec<String> = vec![];
+    if let Some(ref short) = self.short {
+      args.push(bold(&short));
+    }
+    if let Some(ref long) = self.long {
+      if !args.is_empty() {
+        args.push(", ".to_string());
+      }
+      args.push(bold(&long));
+    }
+    args.push("=".into());
+    args.push(italic(&self.name));
+    if let Some(ref default) = self.default {
+      if !args.is_empty() {
+        args.push(" ".to_string());
+      }
+      args.push("[".into());
+      args.push("default:".into());
+      args.push(" ".into());
+      args.push(italic(&default));
+      args.push("]".into());
+    }
+    let desc = match self.help {
+      Some(ref desc) => desc.to_string(),
+      None => "".to_string(),
+    };
+    list(&args, &[desc])
   }
 }
