@@ -14,6 +14,7 @@ pub struct Manual {
   arguments: Vec<Arg>,
   custom_sections: Vec<Section>,
   examples: Vec<Example>,
+  custom_synopsis_expansion: Option<String>,
 }
 
 impl Manual {
@@ -30,6 +31,7 @@ impl Manual {
       environment: vec![],
       custom_sections: vec![],
       examples: vec![],
+      custom_synopsis_expansion: None,
     }
   }
 
@@ -89,6 +91,11 @@ impl Manual {
     self
   }
 
+  pub fn custom_synopsis_expansion<S: Into<String>>(mut self, expansion: S) -> Self {
+    self.custom_synopsis_expansion = Some(expansion.into());
+    self
+  }
+
   /// Render to a string.
   pub fn render(self) -> String {
     let man_num = 1;
@@ -100,6 +107,7 @@ impl Manual {
       &self.flags,
       &self.options,
       &self.arguments,
+      &self.custom_synopsis_expansion,
     );
     page = description(page, &self.description);
     page = flags(page, &self.flags);
@@ -153,6 +161,7 @@ fn synopsis(
   flags: &[Flag],
   options: &[Opt],
   args: &[Arg],
+  custom_synopsis_expansion: &Option<String>,
 ) -> Roff {
   let flags = match flags.len() {
     0 => "".into(),
@@ -165,8 +174,15 @@ fn synopsis(
 
   let mut msg = vec![];
   msg.push(bold(name));
-  msg.push(flags);
-  msg.push(options);
+  match custom_synopsis_expansion {
+    Some(custom) => {
+      msg.push(format!(" {}",custom));
+    },
+    None => {
+      msg.push(flags);
+      msg.push(options);
+    }
+  };
 
   for arg in args {
     msg.push(format!(" {}", arg.name));
