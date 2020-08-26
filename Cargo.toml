@@ -1,11 +1,11 @@
 [package]
-name = "man"
-version = "0.3.0"
+name = "bird_tool_utils-man"
+version = "0.4.0"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/rust-clique/man"
-documentation = "https://docs.rs/man"
-description = "Generate structured man pages"
-authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
+repository = "https://github.com/wwood/bird_tool_utils"
+documentation = "https://docs.rs/bird_tool_utils-man"
+description = "(fork of man crate) Generate structured man pages"
+authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>","Ben J. Woodcroft <benjwoodcroft@gmail.com>"]
 readme = "README.md"
 
 [dependencies]
