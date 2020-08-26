@@ -285,7 +285,7 @@ fn options(page: Roff, options: &[Opt]) -> Roff {
       }
       args.push(bold(&long));
     }
-    args.push("=".into());
+    args.push(" ".into());
     args.push(italic(&opt.name));
     if let Some(ref default) = opt.default {
       if !args.is_empty() {

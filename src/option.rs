@@ -60,7 +60,7 @@ impl FlagOrOption for Opt {
       }
       args.push(bold(&long));
     }
-    args.push("=".into());
+    args.push(" ".into());
     args.push(italic(&self.name));
     if let Some(ref default) = self.default {
       if !args.is_empty() {
